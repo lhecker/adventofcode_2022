@@ -13,13 +13,13 @@ fn main() -> Result<()> {
     }
 
     let input = include_str!("input.txt");
-    let mut duplicates = [0u8; 128];
+    let mut duplicates = [0u8; 256];
     let mut score = 0usize;
     let mut index = 1u8;
 
     for line in input.lines() {
-        for ch in line.as_bytes() {
-            duplicates[(*ch & 0x7f) as usize] |= index;
+        for &ch in line.as_bytes() {
+            duplicates[ch as usize] |= index;
         }
 
         index <<= 1;

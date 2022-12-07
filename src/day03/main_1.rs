@@ -13,7 +13,7 @@ fn main() -> Result<()> {
     }
 
     let input = include_str!("input.txt");
-    let mut duplicates = [0u8; 128];
+    let mut duplicates = [false; 256];
     let mut score = 0usize;
 
     for line in input.lines() {
@@ -22,18 +22,16 @@ fn main() -> Result<()> {
             bail!("expected line of even length");
         }
 
-        duplicates.fill(0);
-
         let (left, right) = ascii.split_at(ascii.len() / 2);
-        for ch in left {
-            duplicates[(*ch & 0x7f) as usize] |= 0b01;
-        }
-        for ch in right {
-            duplicates[(*ch & 0x7f) as usize] |= 0b10;
+        for &ch in left {
+            duplicates[ch as usize] = true;
         }
 
-        let idx = duplicates.iter().position(|&ch| ch == 0b11).unwrap_or(0);
-        score += priorities[idx] as usize;
+        score += right
+            .iter()
+            .find(|&&ch| duplicates[ch as usize])
+            .map(|&ch| priorities[ch as usize] as usize)
+            .unwrap_or(0);
     }
 
     drop(measure);
