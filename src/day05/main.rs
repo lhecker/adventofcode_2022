@@ -1,6 +1,9 @@
+use adventofcode_2022::Measure;
 use anyhow::{bail, Result};
 
 fn main() -> Result<()> {
+    let measure = Measure::new();
+
     let input = include_str!("input.txt");
     let mut lines = input.lines();
 
@@ -106,6 +109,7 @@ fn main() -> Result<()> {
             .collect::<String>()
     };
 
+    drop(measure);
     println!("CrateMover9000: {}", topmost_crates(&stacks9000));
     println!("CrateMover9001: {}", topmost_crates(&stacks9001));
     Ok(())

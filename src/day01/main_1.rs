@@ -1,6 +1,9 @@
+use adventofcode_2022::Measure;
 use anyhow::Result;
 
 fn main() -> Result<()> {
+    let measure = Measure::new();
+
     let input = include_str!("input.txt");
     let mut accumulator = 0usize;
     let mut maximum = 0usize;
@@ -14,6 +17,7 @@ fn main() -> Result<()> {
         }
     }
 
+    drop(measure);
     println!("{}", maximum);
     Ok(())
 }

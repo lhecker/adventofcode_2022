@@ -1,6 +1,9 @@
+use adventofcode_2022::Measure;
 use anyhow::{bail, Result};
 
 fn main() -> Result<()> {
+    let measure = Measure::new();
+
     let input = include_str!("input.txt");
     let mut score_total = 0usize;
 
@@ -49,6 +52,7 @@ fn main() -> Result<()> {
         score_total += me + 1;
     }
 
+    drop(measure);
     println!("{}", score_total);
     Ok(())
 }

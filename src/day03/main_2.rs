@@ -1,6 +1,9 @@
+use adventofcode_2022::Measure;
 use anyhow::Result;
 
 fn main() -> Result<()> {
+    let measure = Measure::new();
+
     let mut priorities = [0u8; 128];
     for ch in b'a'..=b'z' {
         priorities[ch as usize] = ch - b'a' + 1;
@@ -28,6 +31,7 @@ fn main() -> Result<()> {
         }
     }
 
+    drop(measure);
     println!("{}", score);
     Ok(())
 }

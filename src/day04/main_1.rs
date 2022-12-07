@@ -1,3 +1,4 @@
+use adventofcode_2022::Measure;
 use anyhow::{bail, Result};
 use std::ops::RangeInclusive;
 
@@ -19,6 +20,8 @@ fn overlap_range(a: &RangeInclusive<u8>, b: &RangeInclusive<u8>) -> RangeInclusi
 }
 
 fn main() -> Result<()> {
+    let measure = Measure::new();
+
     let input = include_str!("input.txt");
     let mut total_overlaps = 0usize;
 
@@ -37,6 +40,7 @@ fn main() -> Result<()> {
         }
     }
 
+    drop(measure);
     println!("{}", total_overlaps);
     Ok(())
 }

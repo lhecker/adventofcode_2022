@@ -1,6 +1,9 @@
+use adventofcode_2022::Measure;
 use anyhow::{bail, Result};
 
 fn main() -> Result<()> {
+    let measure = Measure::new();
+
     let input = include_str!("input.txt");
     let mut stack: Vec<usize> = Vec::new();
     let mut dir_sizes: Vec<usize> = Vec::new();
@@ -68,6 +71,7 @@ fn main() -> Result<()> {
         }
     }
 
+    drop(measure);
     println!(
         "Total sum of directories with a size of <100000: {}",
         small_dir_size_total
