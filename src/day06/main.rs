@@ -27,7 +27,7 @@ fn find_marker(input: &[u8], length: usize) -> usize {
         }
 
         distance += 1;
-        if distance >= 4 && duplicates == 0 {
+        if distance >= length && duplicates == 0 {
             break;
         }
     }
