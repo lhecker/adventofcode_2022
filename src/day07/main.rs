@@ -1,13 +1,11 @@
 use anyhow::{bail, Result};
-use std::io::BufRead;
 
 fn main() -> Result<()> {
-    let stdin = std::io::stdin().lock();
+    let input = include_str!("input.txt");
     let mut stack: Vec<usize> = Vec::new();
     let mut dir_sizes: Vec<usize> = Vec::new();
 
-    for line in stdin.lines() {
-        let line = line?;
+    for line in input.lines() {
         let ascii = line.as_bytes();
 
         // Out of the input only 3 things are of interest:
@@ -29,7 +27,7 @@ fn main() -> Result<()> {
                 // 2. "cd <directory>"
                 stack.push(0);
             }
-        } else if ascii.len() != 0 && (b'0'..=b'9').contains(&ascii[0]) {
+        } else if !ascii.is_empty() && (b'0'..=b'9').contains(&ascii[0]) {
             // 3. "123456 <filename>"
             let Some((prefix, _)) = line.split_once(' ') else {
                 bail!("expected '<filesize> <filename>'");

@@ -1,5 +1,4 @@
 use anyhow::Result;
-use std::io::BufRead;
 
 fn sort<T: Ord + Copy>(s: &mut [T], a: usize, b: usize) {
     let va = s[a];
@@ -9,12 +8,11 @@ fn sort<T: Ord + Copy>(s: &mut [T], a: usize, b: usize) {
 }
 
 fn main() -> Result<()> {
-    let stdin = std::io::stdin().lock();
+    let input = include_str!("input.txt");
     let mut accumulator = 0usize;
     let mut maximas = [0usize; 3];
 
-    for line in stdin.lines() {
-        let line = line?;
+    for line in input.lines() {
         if line.is_empty() {
             maximas[2] = maximas[2].max(accumulator);
             sort(&mut maximas, 2, 1);
@@ -25,6 +23,6 @@ fn main() -> Result<()> {
         }
     }
 
-    println!("total: {}", maximas.iter().sum::<usize>());
+    println!("{}", maximas.iter().sum::<usize>());
     Ok(())
 }

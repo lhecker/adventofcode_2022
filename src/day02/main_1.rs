@@ -1,12 +1,10 @@
 use anyhow::{bail, Result};
-use std::io::BufRead;
 
 fn main() -> Result<()> {
-    let stdin = std::io::stdin().lock();
+    let input = include_str!("input.txt");
     let mut score_total = 0usize;
 
-    for line in stdin.lines() {
-        let line = line?;
+    for line in input.lines() {
         let bytes = line.as_bytes();
         if bytes.len() != 3 {
             continue;

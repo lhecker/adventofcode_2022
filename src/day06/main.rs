@@ -1,5 +1,4 @@
 use anyhow::Result;
-use std::io::Read;
 
 fn find_marker(input: &[u8], length: usize) -> usize {
     // Count the number of `duplicates` by keeping a table of each character's frequency in the
@@ -36,9 +35,11 @@ fn find_marker(input: &[u8], length: usize) -> usize {
 }
 
 fn main() -> Result<()> {
-    let mut input = Vec::new();
-    std::io::stdin().lock().read_to_end(&mut input)?;
-    println!("start-of-packet: {}", find_marker(&input, 4));
-    println!("start-of-message: {}", find_marker(&input, 14));
+    let input = include_bytes!("input.txt");
+    let start_of_packet = find_marker(input, 4);
+    let start_of_message = find_marker(input, 14);
+
+    println!("start-of-packet: {}", start_of_packet);
+    println!("start-of-message: {}", start_of_message);
     Ok(())
 }

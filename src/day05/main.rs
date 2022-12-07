@@ -1,20 +1,20 @@
 use anyhow::{bail, Result};
-use std::io::BufRead;
 
 fn main() -> Result<()> {
-    let mut lines = std::io::stdin().lock().lines();
+    let input = include_str!("input.txt");
+    let mut lines = input.lines();
 
     // Read the initial state. The input might not be a perfectly rectangular matrix.
     let mut initial_state = Vec::new();
     for line in &mut lines {
-        let ascii = line?.into_bytes();
+        let ascii = line.as_bytes();
         if ascii.is_empty() {
             break;
         }
         initial_state.push(ascii);
     }
 
-    let line_length = initial_state.iter().map(|s| s.len()).max().unwrap_or(0);
+    let line_length = initial_state.iter().map(|&s| s.len()).max().unwrap_or(0);
     let stacks_len = (line_length + 2) / 4;
 
     // The last line in the initial state input is just a list of "1 2 3 ..." indices.
@@ -30,7 +30,7 @@ fn main() -> Result<()> {
                 break;
             }
             let ch = line[i];
-            if ch < b'A' || ch > b'Z' {
+            if !(b'A'..=b'Z').contains(&ch) {
                 break;
             }
             stack.push(ch);
@@ -42,7 +42,6 @@ fn main() -> Result<()> {
 
     // Process the "move N from A to B" instructions.
     for line in &mut lines {
-        let line = line?;
         let mut it = line.split_ascii_whitespace();
         if it.next() != Some("move") {
             bail!("expected 'move'");

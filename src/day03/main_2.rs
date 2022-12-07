@@ -1,5 +1,4 @@
 use anyhow::Result;
-use std::io::BufRead;
 
 fn main() -> Result<()> {
     let mut priorities = [0u8; 128];
@@ -10,13 +9,12 @@ fn main() -> Result<()> {
         priorities[ch as usize] = ch - b'A' + 27;
     }
 
-    let stdin = std::io::stdin().lock();
+    let input = include_str!("input.txt");
     let mut duplicates = [0u8; 128];
     let mut score = 0usize;
     let mut index = 1u8;
 
-    for line in stdin.lines() {
-        let line = line?;
+    for line in input.lines() {
         for ch in line.as_bytes() {
             duplicates[(*ch & 0x7f) as usize] |= index;
         }

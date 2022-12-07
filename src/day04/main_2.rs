@@ -1,5 +1,4 @@
 use anyhow::{bail, Result};
-use std::io::BufRead;
 use std::ops::RangeInclusive;
 
 fn parse_range(s: &str) -> Result<RangeInclusive<u8>> {
@@ -20,12 +19,10 @@ fn overlap_range(a: &RangeInclusive<u8>, b: &RangeInclusive<u8>) -> RangeInclusi
 }
 
 fn main() -> Result<()> {
-    let stdin = std::io::stdin().lock();
+    let input = include_str!("input.txt");
     let mut total_overlaps = 0usize;
 
-    for line in stdin.lines() {
-        let line = line?;
-
+    for line in input.lines() {
         let (left, right) = match line.split_once(',') {
             Some(v) => v,
             None => bail!("expected , separator"),

@@ -1,5 +1,4 @@
 use anyhow::{bail, Result};
-use std::io::BufRead;
 
 fn main() -> Result<()> {
     let mut priorities = [0u8; 128];
@@ -10,12 +9,11 @@ fn main() -> Result<()> {
         priorities[ch as usize] = ch - b'A' + 27;
     }
 
-    let stdin = std::io::stdin().lock();
+    let input = include_str!("input.txt");
     let mut duplicates = [0u8; 128];
     let mut score = 0usize;
 
-    for line in stdin.lines() {
-        let line = line?;
+    for line in input.lines() {
         let ascii = line.as_bytes();
         if ascii.len() & 1 != 0 {
             bail!("expected line of even length");

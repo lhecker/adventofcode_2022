@@ -1,13 +1,11 @@
 use anyhow::Result;
-use std::io::BufRead;
 
 fn main() -> Result<()> {
-    let stdin = std::io::stdin().lock();
+    let input = include_str!("input.txt");
     let mut accumulator = 0usize;
     let mut maximum = 0usize;
 
-    for line in stdin.lines() {
-        let line = line?;
+    for line in input.lines() {
         if line.is_empty() {
             maximum = maximum.max(accumulator);
             accumulator = 0;
