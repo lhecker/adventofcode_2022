@@ -1,4 +1,3 @@
-use adventofcode_2022::Measure;
 use anyhow::Result;
 
 fn find_marker(input: &[u8], length: usize) -> usize {
@@ -35,15 +34,9 @@ fn find_marker(input: &[u8], length: usize) -> usize {
     distance
 }
 
-fn main() -> Result<()> {
-    let measure = Measure::new();
-
+pub fn day06() -> Result<(usize, usize)> {
     let input = include_bytes!("input.txt");
     let start_of_packet = find_marker(input, 4);
     let start_of_message = find_marker(input, 14);
-
-    drop(measure);
-    println!("start-of-packet: {}", start_of_packet);
-    println!("start-of-message: {}", start_of_message);
-    Ok(())
+    Ok((start_of_packet, start_of_message))
 }

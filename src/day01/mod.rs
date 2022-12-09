@@ -1,4 +1,3 @@
-use adventofcode_2022::Measure;
 use anyhow::Result;
 
 fn sort<T: Ord + Copy>(s: &mut [T], a: usize, b: usize) {
@@ -8,9 +7,7 @@ fn sort<T: Ord + Copy>(s: &mut [T], a: usize, b: usize) {
     s[b] = va.max(vb);
 }
 
-fn main() -> Result<()> {
-    let measure = Measure::new();
-
+pub fn day01() -> Result<(usize, usize)> {
     let input = include_str!("input.txt");
     let mut accumulator = 0usize;
     let mut maximas = [0usize; 3];
@@ -26,7 +23,5 @@ fn main() -> Result<()> {
         }
     }
 
-    drop(measure);
-    println!("{}", maximas.iter().sum::<usize>());
-    Ok(())
+    Ok((maximas[0], maximas.iter().sum::<usize>()))
 }

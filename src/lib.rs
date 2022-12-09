@@ -1,25 +1,27 @@
-use std::time::Instant;
-
-pub struct Measure {
-    beg: Instant,
+// My poor imitation of X macros, coming from C/C++. I wouldn't say I'm happy with this.
+#[macro_export]
+macro_rules! foreach_day {
+    ($x:ident $(,$e:expr)*) => {
+        $x!(
+            $($e,)*
+            day01,
+            day02,
+            day03,
+            day04,
+            day05,
+            day06,
+            day07,
+        );
+    };
 }
 
-impl Measure {
-    pub fn new() -> Self {
-        Self {
-            beg: Instant::now(),
-        }
-    }
+macro_rules! reexport {
+    ($($day:ident,)*) => {
+        $(
+            mod $day;
+            pub use $day::$day;
+        )*
+    };
 }
 
-impl Drop for Measure {
-    fn drop(&mut self) {
-        println!("took: {:?}", self.beg.elapsed());
-    }
-}
-
-impl Default for Measure {
-    fn default() -> Self {
-        Self::new()
-    }
-}
+foreach_day!(reexport);

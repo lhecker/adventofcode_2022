@@ -1,9 +1,6 @@
-use adventofcode_2022::Measure;
 use anyhow::{bail, Result};
 
-fn main() -> Result<()> {
-    let measure = Measure::new();
-
+pub fn day07() -> Result<(usize, usize)> {
     let input = include_str!("input.txt");
     let mut stack: Vec<usize> = Vec::new();
     let mut dir_sizes: Vec<usize> = Vec::new();
@@ -71,14 +68,5 @@ fn main() -> Result<()> {
         }
     }
 
-    drop(measure);
-    println!(
-        "Total sum of directories with a size of <100000: {}",
-        small_dir_size_total
-    );
-    println!(
-        "Smallest directory that restores a disk space of 30000000: {}",
-        min_dir_size
-    );
-    Ok(())
+    Ok((small_dir_size_total, min_dir_size))
 }
