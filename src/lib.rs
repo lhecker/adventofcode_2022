@@ -13,6 +13,7 @@ macro_rules! foreach_day {
             day07,
             day08,
             day09,
+            day10,
         );
     };
 }
