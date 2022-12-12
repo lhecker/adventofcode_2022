@@ -1,6 +1,6 @@
 use anyhow::{bail, Result};
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 enum ParseState {
     MonkeyID,
     StartingItems,
@@ -10,14 +10,24 @@ enum ParseState {
     TestFalse,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Clone, Copy)]
 enum Operation {
     Add(i64),
     Multiply(i64),
     MultiplyOld,
 }
 
-#[derive(Debug, Clone)]
+impl Operation {
+    fn apply(&self, old: i64) -> i64 {
+        match self {
+            Operation::Add(num) => old + num,
+            Operation::Multiply(num) => old * num,
+            Operation::MultiplyOld => old * old,
+        }
+    }
+}
+
+#[derive(Clone)]
 struct Monkey {
     items: Vec<i64>,
     operation: Operation,
@@ -143,19 +153,9 @@ pub fn day11() -> Result<(usize, usize)> {
             for (i, m) in monkeys.iter_mut().enumerate() {
                 m.inspected_items += m.items.len();
 
-                for mut worry_level in m.items.drain(..) {
+                for worry_level in m.items.drain(..) {
                     // Worry level is multiplied / increases by
-                    match m.operation {
-                        Operation::Add(num) => {
-                            worry_level += num;
-                        }
-                        Operation::Multiply(num) => {
-                            worry_level *= num;
-                        }
-                        Operation::MultiplyOld => {
-                            worry_level *= worry_level;
-                        }
-                    }
+                    let mut worry_level = m.operation.apply(worry_level);
                     // Monkey gets bored with item
                     worry_level /= 3;
                     // Worry level test
@@ -182,19 +182,9 @@ pub fn day11() -> Result<(usize, usize)> {
             for (i, m) in monkeys.iter_mut().enumerate() {
                 m.inspected_items += m.items.len();
 
-                for mut worry_level in m.items.drain(..) {
+                for worry_level in m.items.drain(..) {
                     // Worry level is multiplied / increases by
-                    match m.operation {
-                        Operation::Add(num) => {
-                            worry_level += num;
-                        }
-                        Operation::Multiply(num) => {
-                            worry_level *= num;
-                        }
-                        Operation::MultiplyOld => {
-                            worry_level *= worry_level;
-                        }
-                    }
+                    let mut worry_level = m.operation.apply(worry_level);
                     // Prevent the worry_level from exceeding the maximum.
                     worry_level %= common_divisor;
                     // Worry level test
