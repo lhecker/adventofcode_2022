@@ -11,7 +11,7 @@ pub fn day04() -> Result<(usize, usize)> {
         // Not using .split() and .parse() here roughly doubles throughput.
         let mut i = 0;
         for &ch in line.as_bytes() {
-            if ch >= b'0' && ch <= b'9' {
+            if (b'0'..=b'9').contains(&ch) {
                 accumulator = accumulator * 10 + (ch - b'0') as i32;
             } else {
                 buffer[i] = accumulator;
